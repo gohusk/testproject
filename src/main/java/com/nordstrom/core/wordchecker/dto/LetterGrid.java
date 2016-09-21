@@ -15,8 +15,20 @@ import static com.nordstrom.utils.WordCheckerUtils.reverseString;
 public class LetterGrid {
 
     public enum Orientation {
-        VERTICAL_UP_DOWN, VERTICAL_DOWN_UP,
-        HORIZONTAL_LEFT_RIGHT, HORIZONTAL_RIGHT_LEFT
+        VERTICAL_UP_DOWN("D"),
+        VERTICAL_DOWN_UP("U"),
+        HORIZONTAL_LEFT_RIGHT("LR"),
+        HORIZONTAL_RIGHT_LEFT("RL");
+
+        private String displayText;
+
+        Orientation(String displayText) {
+            this.displayText = displayText;
+        }
+
+        public String getDisplayText() {
+            return displayText;
+        }
     }
 
     private List<char[]> grid = new ArrayList<>();
@@ -95,7 +107,7 @@ public class LetterGrid {
 
     private void findWordInString(GameWord word, String stringToSearch, int rowIndex, Orientation orientation) {
         int index;
-        while ((index = stringToSearch.indexOf(word.getValue())) > 0) {
+        while ((index = stringToSearch.indexOf(word.getValue())) >= 0) {
             word.addLocation(new GameWord.WordLocation(rowIndex, index, orientation));
             stringToSearch = stringToSearch.substring(index + word.getValue().length());
         }

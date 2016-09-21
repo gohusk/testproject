@@ -35,6 +35,12 @@ public class WordCheckerGame {
                 grid.findWordInRow(word, i);
             }
         }
+
+        for (GameWord word : wordLibrary) {
+            for (int i = 0; i < grid.getGridDimensions().getValue(); i++) {
+                grid.findWordInColumn(word, i);
+            }
+        }
     }
     /**
      * Returns the grid dimensions. Primarily for testability.
@@ -49,10 +55,6 @@ public class WordCheckerGame {
         return wordLibrary;
     }
 
-    public void setWordLibrary(Set<GameWord> wordLibrary) {
-        this.wordLibrary = wordLibrary;
-    }
-
     public void loadGameLibrary() throws IOException {
         readWordsToFind(WordCheckerConsole.getDictionaryFileLocation());
     }
@@ -60,10 +62,9 @@ public class WordCheckerGame {
     private void readWordsToFind(String dictionaryFileLocation) throws IOException {
         Stream<String> stream = Files.lines(Paths.get(dictionaryFileLocation));
         stream.forEach(s -> {
-            wordLibrary.add(new GameWord(s));
+            wordLibrary.add(new GameWord(s.replaceAll("\\s+","")));
         });
     }
-
 
     public void loadGameGrid() throws IOException {
         readGridFromFile(WordCheckerConsole.getGameGridLocation());
