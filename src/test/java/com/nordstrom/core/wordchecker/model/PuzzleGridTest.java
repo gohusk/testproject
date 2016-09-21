@@ -68,7 +68,6 @@ public class PuzzleGridTest {
         stream.forEach(s -> {
             testGrid.appendNewRow(s.toCharArray());
         });
-
     }
 
     //initialize words for row tests

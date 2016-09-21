@@ -21,6 +21,7 @@ public class PuzzleTest {
     @Rule
     public TextFromStandardInputStream systemInMock = TextFromStandardInputStream.emptyStandardInputStream();
 
+    //Test that Puzzle can read game grid
     @Test
     public void shouldReadGameGrid() throws IOException {
         Puzzle game = new Puzzle();
@@ -29,16 +30,12 @@ public class PuzzleTest {
         Assert.assertTrue(game.getGridDimensions().equals(new Pair<Integer, Integer>(5, 5)));
     }
 
+    //Test that puzzle can read dictionary
     @Test
     public void shouldReadDictionary() throws IOException {
         Puzzle game = new Puzzle();
         systemInMock.provideLines("./src/test/resources/library.txt");
         game.loadGameLibrary();
         Assert.assertTrue(game.getWordLibrary().size() == 3);
-    }
-
-    @Test
-    public void shouldReadDimension() {
-
     }
 }
