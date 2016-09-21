@@ -1,13 +1,13 @@
 package com.nordstrom.core.wordchecker.utils;
 
-import com.nordstrom.utils.WordCheckerUtils;
+import com.nordstrom.utils.PuzzleUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
  * Created by plavelle on 9/20/2016.
  */
-public class WordCheckerUtilsTest {
+public class PuzzleUtilsTest {
 
     static String testString = "abcde";
     static String testStringReversed = "edcba";
@@ -15,11 +15,11 @@ public class WordCheckerUtilsTest {
 
     @Test
     public void shouldReverseString() {
-        Assert.assertTrue(WordCheckerUtils.reverseString(testString).equals(testStringReversed));
+        Assert.assertTrue(PuzzleUtils.reverseString(testString).equals(testStringReversed));
     }
 
     @Test
     public void shouldReverseCharArray() {
-        Assert.assertTrue(new String(WordCheckerUtils.reverseCharArray(testCharArray)).equals(testString));
+        Assert.assertTrue(new String(PuzzleUtils.reverseCharArray(testCharArray)).equals(testString));
     }
 }

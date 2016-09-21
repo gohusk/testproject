@@ -1,8 +1,7 @@
 package com.nordstrom.gameengine;
 
-import com.nordstrom.core.wordchecker.dto.LetterGrid;
-import com.nordstrom.core.wordchecker.dto.GameWord;
-import com.nordstrom.utils.WordCheckerUtils;
+import com.nordstrom.core.wordchecker.dto.PuzzleGrid;
+import com.nordstrom.core.wordchecker.dto.PuzzleWord;
 import javafx.util.Pair;
 
 import java.io.IOException;
@@ -13,30 +12,32 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 /**
- * Created by plavelle on 9/18/2016.
- */
-public class WordCheckerGame {
+ * Main class for the word finding puzzle tool.
+ *
+ * */
+public class Puzzle {
 
-    private LetterGrid grid = new LetterGrid();
-    private Set<GameWord> wordLibrary = new HashSet<>();
+    private PuzzleGrid grid = new PuzzleGrid();
+    private Set<PuzzleWord> wordLibrary = new HashSet<>();
 
 
     public static void main(String[] args) throws IOException {
-        WordCheckerGame game = new WordCheckerGame();
+        Puzzle game = new Puzzle();
         game.loadGameGrid();
         game.loadGameLibrary();
-        game.play();
+        game.searchForWords();
+        PuzzleUserConsole.printResults(game.getWordLibrary());
         System.out.println();
     }
 
-    public void play() {
-        for (GameWord word : wordLibrary) {
+    public void searchForWords() {
+        for (PuzzleWord word : wordLibrary) {
             for (int i = 0; i < grid.getGridDimensions().getKey(); i++) {
                 grid.findWordInRow(word, i);
             }
         }
 
-        for (GameWord word : wordLibrary) {
+        for (PuzzleWord word : wordLibrary) {
             for (int i = 0; i < grid.getGridDimensions().getValue(); i++) {
                 grid.findWordInColumn(word, i);
             }
@@ -51,23 +52,23 @@ public class WordCheckerGame {
         return grid.getGridDimensions();
     }
 
-    public Set<GameWord> getWordLibrary() {
+    public Set<PuzzleWord> getWordLibrary() {
         return wordLibrary;
     }
 
     public void loadGameLibrary() throws IOException {
-        readWordsToFind(WordCheckerConsole.getDictionaryFileLocation());
+        readWordsToFind(PuzzleUserConsole.getDictionaryFileLocation());
     }
 
     private void readWordsToFind(String dictionaryFileLocation) throws IOException {
         Stream<String> stream = Files.lines(Paths.get(dictionaryFileLocation));
         stream.forEach(s -> {
-            wordLibrary.add(new GameWord(s.replaceAll("\\s+","")));
+            wordLibrary.add(new PuzzleWord(s.replaceAll("\\s+","")));
         });
     }
 
     public void loadGameGrid() throws IOException {
-        readGridFromFile(WordCheckerConsole.getGameGridLocation());
+        readGridFromFile(PuzzleUserConsole.getGameGridLocation());
     }
 
     /**
