@@ -41,7 +41,7 @@ public class PuzzleUserConsole {
     public static void printResults(Set<PuzzleWord> words) {
         System.out.println("SCAN RESULTS:");
         for (PuzzleWord word : words) {
-            System.out.println(word);
+            System.out.println(getPuzzleWordOutput(word));
         }
     }
     private static Scanner getScanner() {
@@ -52,7 +52,7 @@ public class PuzzleUserConsole {
      * Override toString for better output
      * @return
      */
-    private String getPuzzleWordOutput(PuzzleWord word) {
+    private static String getPuzzleWordOutput(PuzzleWord word) {
         if (!word.isFound()) return "WORD: " + word.getValue() + " N - Not Found";
 
         return "WORD: " + word.getValue() + ", LOCATION (ROW, COLUMN): (" + word.getLocation().getKey() + ", "

@@ -28,7 +28,6 @@ public class Puzzle {
         game.loadGameLibrary();
         game.searchForWords();
         PuzzleUserConsole.printResults(game.getWordLibrary());
-        System.out.println();
     }
 
     public void searchForWords() {
