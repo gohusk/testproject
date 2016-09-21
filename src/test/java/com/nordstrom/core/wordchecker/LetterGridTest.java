@@ -23,8 +23,8 @@ public class LetterGridTest {
     static LetterGrid testGrid = new LetterGrid();
 
 
-    static char[] expectedRowReturn = {'f', 'g', 'h', 'i', 'j'};
-    static char[] expectedColumnReturn = {'d', 'i', 'n', 's', 'x'};
+    static char[] expectedRowReturn = {'F', 'G', 'H', 'I', 'J'};
+    static char[] expectedColumnReturn = {'D', 'I', 'N', 'S', 'X'};
 
     GameWord rowLeftToRight;
     GameWord rowRightToLeft;
