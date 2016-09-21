@@ -10,19 +10,21 @@ import java.util.Scanner;
  */
 public class WordCheckerConsole {
 
-   static Scanner scanner = new Scanner(System.in);
-
     public static void printWelcome() {
         System.out.println(DisplayConstants.splashMessage);
     }
 
     public static String getDictionaryFileLocation() {
         System.out.print(DisplayConstants.promptForDictionaryFileName);
-        return scanner.next();
+        return getScanner().next();
     }
 
     public static String getGameGridLocation() {
         System.out.println(DisplayConstants.promptForGameGridFileName);
-        return scanner.next();
+        return getScanner().next();
+    }
+
+    private static Scanner getScanner() {
+        return new Scanner(System.in);
     }
 }

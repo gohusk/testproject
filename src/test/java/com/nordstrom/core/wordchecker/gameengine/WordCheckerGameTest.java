@@ -18,13 +18,6 @@ public class WordCheckerGameTest {
     @Rule
     public TextFromStandardInputStream systemInMock = TextFromStandardInputStream.emptyStandardInputStream();
 
-
-    @Test
-    public void shouldProvideInput() {
-        systemInMock.provideLines("c:\\temp\\test.txt");
-        WordCheckerConsole.getDictionaryFileLocation();
-    }
-
     @Test
     public void shouldReadGameGrid() throws IOException {
         WordCheckerGame game = new WordCheckerGame();
