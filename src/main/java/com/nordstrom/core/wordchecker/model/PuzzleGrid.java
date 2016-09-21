@@ -1,6 +1,6 @@
-package com.nordstrom.core.wordchecker.dto;
+package com.nordstrom.core.wordchecker.model;
 
-import com.nordstrom.core.wordchecker.dto.exceptions.IllegalRowAdditionException;
+import com.nordstrom.core.wordchecker.model.exceptions.IllegalRowAdditionException;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
@@ -100,7 +100,22 @@ public class PuzzleGrid {
         return orientation == Orientation.U ? reverseCharArray(retval) : retval;
     }
 
+    /**
+     * Searches for an individual word over the entire grid
+     * @param word
+     */
+    public void findWordInGrid(PuzzleWord word) {
+        for (int i = 0; i < grid.size(); i++ ) {
+            findWordInRow(word, i);
+            if (word.isFound()) return;
+        }
 
+        for (int i = 0; i < grid.get(0).length; i++) {
+            findWordInColumn(word, i);
+            if (word.isFound()) return;
+        }
+
+    }
     /**
      * Finds a word in a row with the given index.
      *

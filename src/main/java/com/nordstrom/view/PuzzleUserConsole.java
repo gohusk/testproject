@@ -1,7 +1,7 @@
-package com.nordstrom.gameengine;
+package com.nordstrom.view;
 
-import com.nordstrom.core.wordchecker.dto.PuzzleWord;
-import com.nordstrom.gameengine.constants.DisplayConstants;
+import com.nordstrom.core.wordchecker.model.PuzzleWord;
+import com.nordstrom.view.constants.DisplayConstants;
 
 import java.util.Scanner;
 import java.util.Set;

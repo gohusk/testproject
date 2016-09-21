@@ -1,4 +1,4 @@
-package com.nordstrom.core.wordchecker.dto;
+package com.nordstrom.core.wordchecker.model;
 
 import javafx.util.Pair;
 
@@ -39,11 +39,14 @@ public class PuzzleWord {
     }
 
     /**
-     * Set orientation of the puzzle word on the grid
+     * Set orientation of the puzzle word on the grid. If an item has
+     * length 1 then it will default to LR whicch is the natural orientation
+     * for the english language.
+     *
      * @param Orientation
      */
     public void setOrientation(PuzzleGrid.Orientation orientation) {
-        this.orientation = orientation;
+        this.orientation = value.length() != 1? this.orientation = orientation : PuzzleGrid.Orientation.LR;
     }
 
     /**

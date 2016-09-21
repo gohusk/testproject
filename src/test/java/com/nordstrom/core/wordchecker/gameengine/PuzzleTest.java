@@ -1,13 +1,17 @@
 package com.nordstrom.core.wordchecker.gameengine;
 
-import com.nordstrom.gameengine.Puzzle;
+import com.nordstrom.controller.Puzzle;
 import javafx.util.Pair;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 /**
  * Test suite for the word checker game class
@@ -31,5 +35,10 @@ public class PuzzleTest {
         systemInMock.provideLines("./src/test/resources/library.txt");
         game.loadGameLibrary();
         Assert.assertTrue(game.getWordLibrary().size() == 3);
+    }
+
+    @Test
+    public void shouldReadDimension() {
+
     }
 }

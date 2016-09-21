@@ -1,11 +1,14 @@
-package com.nordstrom.core.wordchecker;
+package com.nordstrom.core.wordchecker.model;
 
-import com.nordstrom.core.wordchecker.dto.PuzzleGrid;
-import com.nordstrom.core.wordchecker.dto.PuzzleWord;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import javafx.util.Pair;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,6 +21,7 @@ import static com.nordstrom.utils.PuzzleUtils.reverseCharArray;
 /**
  * Created by plavelle on 9/18/2016.
  */
+@RunWith(DataProviderRunner.class)
 public class PuzzleGridTest {
 
     static PuzzleGrid testGrid = new PuzzleGrid();
@@ -31,6 +35,33 @@ public class PuzzleGridTest {
     PuzzleWord columnUpDown;
     PuzzleWord columnDownUp;
 
+    @DataProvider
+    public static Object[][] searchPresentWords() {
+        return new Object[][]{
+                {new PuzzleWord("AFK"), new Pair<Integer, Integer>(0, 0), PuzzleGrid.Orientation.D, true},
+                {new PuzzleWord("YTO"), new Pair<Integer, Integer>(4, 4), PuzzleGrid.Orientation.U, true},
+                {new PuzzleWord("FGH"), new Pair<Integer, Integer>(1, 0), PuzzleGrid.Orientation.LR, true},
+                {new PuzzleWord("NML"), new Pair<Integer, Integer>(2, 3), PuzzleGrid.Orientation.RL, true},
+                {new PuzzleWord("HM"), new Pair<Integer, Integer>(1, 2), PuzzleGrid.Orientation.D, true},
+                {new PuzzleWord("NML"), new Pair<Integer, Integer>(2, 3), PuzzleGrid.Orientation.RL, true},
+                {new PuzzleWord("A"), new Pair<Integer, Integer>(0, 0), PuzzleGrid.Orientation.LR, true},
+                {new PuzzleWord("A"), new Pair<Integer, Integer>(0, 0), PuzzleGrid.Orientation.LR, true},
+                {new PuzzleWord("M"), new Pair<Integer, Integer>(2, 2), PuzzleGrid.Orientation.LR, true},
+                {new PuzzleWord("Y"), new Pair<Integer, Integer>(4, 4), PuzzleGrid.Orientation.LR, true},
+                {new PuzzleWord("AC"), new Pair<Integer, Integer>(-1, -1), null, false},
+                {new PuzzleWord("Z"), new Pair<Integer, Integer>(-1, -1), null, false}
+        };
+    }
+
+    @DataProvider
+    public static Object[][] searchMissingWords() {
+        return new Object[][]{
+                {new PuzzleWord("AC"), new Pair<Integer, Integer>(-1, -1), false},
+                {new PuzzleWord("Z"), new Pair<Integer, Integer>(-1, -1), false},
+                {new PuzzleWord("AC"), new Pair<Integer, Integer>(-1, -1), false},
+        };
+    }
+
     @BeforeClass
     public static void init() throws IOException {
         Stream<String> stream = Files.lines(Paths.get("src/test/resources/gridtestdata.txt"));
@@ -40,6 +71,7 @@ public class PuzzleGridTest {
 
     }
 
+    //initialize words for row tests
     @Before
     public void initTests() {
         rowLeftToRight = new PuzzleWord(new String(expectedRowReturn));
@@ -59,6 +91,7 @@ public class PuzzleGridTest {
         badGrid.appendNewRow(row2);
     }
 
+    //check left to right functionality
     @Test
     public void shouldGetHorizontalLeftToRight() {
         char[] row = testGrid.getLine(1, PuzzleGrid.Orientation.LR);
@@ -66,6 +99,7 @@ public class PuzzleGridTest {
                 Arrays.equals(row, expectedRowReturn));
     }
 
+    //test right to left functionality
     @Test
     public void shouldGetHorizontalRightToLeft() {
         char[] row = testGrid.getLine(1, PuzzleGrid.Orientation.RL);
@@ -75,6 +109,7 @@ public class PuzzleGridTest {
                 Arrays.equals(row, expectedResult));
     }
 
+    //teset up/down functionality
     @Test
     public void shouldGetVerticalLineUpDown() {
         char[] column = testGrid.getLine(3, PuzzleGrid.Orientation.D);
@@ -83,6 +118,7 @@ public class PuzzleGridTest {
                 Arrays.equals(column, expectedColumnReturn));
     }
 
+    //test down/up functionality
     @Test
     public void shouldGetVerticalLineDownUp() {
         char[] column = testGrid.getLine(3, PuzzleGrid.Orientation.U);
@@ -92,35 +128,24 @@ public class PuzzleGridTest {
                 Arrays.equals(column, expectedResult));
     }
 
+
+    //Positive test case for findWordInGrid method
     @Test
-    public void shouldFindWordInRow() {
-        testGrid.findWordInRow(rowLeftToRight, 1);
-        Assert.assertTrue("Did not find test word " + rowLeftToRight.getValue()
-                + "in the test grid", rowLeftToRight.isFound());
+    @UseDataProvider("searchPresentWords")
+    public void shouldPerformSearches(PuzzleWord word, Pair<Integer, Integer> location, PuzzleGrid.Orientation orientation, boolean isFound) {
+        testGrid.findWordInGrid(word);
+        Assert.assertTrue(word.getOrientation().equals(orientation));
+        Assert.assertTrue(word.getLocation().equals(location));
+        Assert.assertTrue(word.isFound() == isFound);
     }
 
+    //negative test case for findWordInGrid method
     @Test
-    public void shouldFindWordInRowReverse() {
-        testGrid.findWordInRow(rowRightToLeft, 1);
-        Assert.assertTrue("Did not find test word " + rowRightToLeft.getValue()
-                + "in the test grid", rowRightToLeft.isFound());
-    }
-
-
-    @Test
-    public void shouldFindWordInColumUpDown() {
-        testGrid.findWordInColumn(columnUpDown, 3);
-        Assert.assertTrue("Did not find test word " + columnUpDown.getValue() + " in the test grid",
-                columnUpDown.isFound());
-        Assert.assertTrue("Row/Column of first letter does not appear to be correct, expected (0, 3), received (" +
-                        columnUpDown.getLocation().getKey() + ", " + columnUpDown.getLocation().getValue() + ")",
-                columnUpDown.getLocation().getKey() == 0 && columnUpDown.getLocation().getValue() == 3);
-    }
-
-    @Test
-    public void shouldFindWordInColumnDownUp() {
-        testGrid.findWordInColumn(columnDownUp, 3);
-        Assert.assertTrue("Did not find test word " + columnUpDown.getValue() + " in the test grid",
-                columnDownUp.isFound());
+    @UseDataProvider("searchMissingWords")
+    public void shouldNotFindMissingWords(PuzzleWord word, Pair<Integer, Integer> location, boolean isFound) {
+        testGrid.findWordInGrid(word);
+        Assert.assertTrue(word.getOrientation() == null);
+        Assert.assertTrue(word.getLocation().equals(location));
+        Assert.assertTrue(word.isFound() == isFound);
     }
 }

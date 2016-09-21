@@ -1,7 +1,8 @@
-package com.nordstrom.gameengine;
+package com.nordstrom.controller;
 
-import com.nordstrom.core.wordchecker.dto.PuzzleGrid;
-import com.nordstrom.core.wordchecker.dto.PuzzleWord;
+import com.nordstrom.core.wordchecker.model.PuzzleGrid;
+import com.nordstrom.core.wordchecker.model.PuzzleWord;
+import com.nordstrom.view.PuzzleUserConsole;
 import javafx.util.Pair;
 
 import java.io.IOException;
